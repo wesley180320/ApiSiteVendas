@@ -5,6 +5,7 @@ import com.estudos.sitevendas.Service.CategoriaService;
 import com.estudos.sitevendas.Service.ProdutoService;
 import com.estudos.sitevendas.model.Categoria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class CategoriaController {
     @Autowired
     ProdutoService produtoService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Object> findById (@PathVariable Integer id){
 
         Optional<Categoria> categoria = categoriaService.findById(id);
@@ -95,5 +96,22 @@ public class CategoriaController {
         return ResponseEntity.ok().body(categoriaDTOS);
 
     }
+
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    public ResponseEntity<Page<CategoriaDTO>> findPage (
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+            @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+            @RequestParam(value = "direction", defaultValue = "ASC") String direction){
+
+        Page<Categoria> categoria = categoriaService.findPage(page,linesPerPage,orderBy,direction);
+
+        Page<CategoriaDTO> categoriaDTOS = categoria.map(obj -> new CategoriaDTO(obj));
+
+        return ResponseEntity.ok().body(categoriaDTOS);
+
+    }
+
+
 
 }
