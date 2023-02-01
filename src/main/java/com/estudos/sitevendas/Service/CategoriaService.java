@@ -1,6 +1,7 @@
 package com.estudos.sitevendas.Service;
 
 
+import com.estudos.sitevendas.DTO.CategoriaDTO;
 import com.estudos.sitevendas.Repository.CategoriaRepository;
 import com.estudos.sitevendas.model.Categoria;
 import com.estudos.sitevendas.model.Produto;
@@ -51,4 +52,13 @@ public class CategoriaService {
 
         return categoriaRepository.findAll(pageRequest);
     }
+
+    public Categoria fromDTO(CategoriaDTO categoriaDTO){
+
+        Categoria categoria = new Categoria(null, categoriaDTO.getNome());
+
+        return categoria;
+
+    }
+
 }

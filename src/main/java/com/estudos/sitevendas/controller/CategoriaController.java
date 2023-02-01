@@ -40,14 +40,15 @@ public class CategoriaController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<Object> save(@RequestBody @Valid Categoria categoria){
+    public ResponseEntity<Object> save(@RequestBody @Valid CategoriaDTO categoria){
 
+        Categoria categoriaConversor = categoriaService.fromDTO(categoria);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(categoriaService.save(categoria));
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoriaService.save(categoriaConversor));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> update(@PathVariable Integer id, @RequestBody @Valid Categoria categoria){
+    public ResponseEntity<Object> update(@PathVariable Integer id, @RequestBody @Valid CategoriaDTO categoriaDTO){
 
 
         Optional<Categoria> categoriaOptional = categoriaService.findById(id);
@@ -61,7 +62,7 @@ public class CategoriaController {
 
         Categoria categoria1 = categoriaOptional.get();
 
-        categoria1.setNome(categoria.getNome());
+        categoria1.setNome(categoriaDTO.getNome());
 
         categoriaService.save(categoria1);
 

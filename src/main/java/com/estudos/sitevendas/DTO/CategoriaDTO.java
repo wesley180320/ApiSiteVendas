@@ -1,14 +1,17 @@
 package com.estudos.sitevendas.DTO;
 
 import com.estudos.sitevendas.model.Categoria;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
+import javax.validation.constraints.NotEmpty;
 
 public class CategoriaDTO {
 
     private Integer id;
 
-    @Column(nullable = false, length = 70)
+    @NotEmpty(message = "Preenchimento obrigatório")
+    @Length(min = 5, max = 80, message = "O tamanho deve ser entre 5 e 80 caracteres")
     private String nome;
 
     public CategoriaDTO(String nome, Integer id) {
