@@ -11,16 +11,12 @@ import java.util.Set;
 
 @Entity
 public class Produto implements Serializable {
-
-
     private static final long serialVersionUID = 5755366344201940641L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String nome;
     private Double preco;
-
     @ManyToMany
     @JsonIgnore
     @JoinTable(
@@ -31,7 +27,6 @@ public class Produto implements Serializable {
 
     )
     private List<Categoria> categorias = new ArrayList<>();
-
 
     @JsonIgnore
     @OneToMany(mappedBy = "itemPedidoPk.produto")
@@ -48,15 +43,10 @@ public class Produto implements Serializable {
 
     @JsonIgnore
     public List<Pedido> getPedidos(){
-
         List<Pedido> pedidos = new ArrayList<>();
-
         for (ItemPedido x : itens){
-
             pedidos.add(x.getPedido());
-
         }
-
         return  pedidos;
     }
 

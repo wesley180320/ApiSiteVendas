@@ -20,46 +20,38 @@ public class CidadeService {
     @Autowired
     private CidadeRepository cidadeRespository;
 
-
     @Autowired
     private EstadoRepository estadoRespository;
 
     public Optional<Cidade> findById(Integer id){
-
         return cidadeRespository.findById(id);
-
     }
 
     @Transactional
     public List<Cidade> findAll(){
-
         return cidadeRespository.findAll();
     }
 
 
     public void delete(Integer id){
-
         cidadeRespository.deleteById(id);
-
     }
 
     public Cidade save (CidadeDTO cidadeDTO){
-
-
         Estado estado1 = new Estado(null,cidadeDTO.getEstado());
         Cidade cidade1 = new Cidade(null,cidadeDTO.getNome(),estado1);
-
         estado1.getCidades().add(cidade1);
-
         estadoRespository.save(estado1);
         return cidadeRespository.save(cidade1);
-
     }
 
-    public Cidade put (Cidade cidade){
-
-        return cidadeRespository.save(cidade);
-
+    public Cidade put (Integer id, CidadeDTO cidadeDTO){
+        Optional<Cidade> c1 = cidadeRespository.findById(id);
+        Estado estadoUpdate = estadoRespository.findByNome(cidadeDTO.getEstado());
+        Cidade cidadeUpdate = c1.get();
+        cidadeUpdate.setNome(cidadeDTO.getNome());
+        cidadeUpdate.setEstado(estadoUpdate);
+        return cidadeRespository.save(cidadeUpdate);
     }
 
 }
